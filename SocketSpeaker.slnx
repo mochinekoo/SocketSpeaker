@@ -2,8 +2,8 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
-  <Project Path="WifiSpeaker_Client/WifiSpeaker_Client.csproj">
+  <Project Path="SocketSpeaker_Client/SocketSpeaker_Client.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
-  <Project Path="WifiSpeaker_Server/WifiSpeaker_Server.csproj" />
+  <Project Path="SocketSpeaker_Server/SocketSpeaker_Server.csproj" />
 </Solution>

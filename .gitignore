@@ -7,3 +7,7 @@
 /WifiSpeaker_Client/obj
 /WifiSpeaker_Server/bin/Debug/net10.0-windows
 /WifiSpeaker_Server/obj
+/SocketSpeaker_Client/bin/Debug/net10.0-android
+/SocketSpeaker_Client/obj
+/SocketSpeaker_Server/bin/Debug/net10.0-windows
+/SocketSpeaker_Server/obj
