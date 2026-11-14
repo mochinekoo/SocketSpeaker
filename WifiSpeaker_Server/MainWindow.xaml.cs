@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NAudio.Wave;
 
 namespace WifiSpeaker_Server {
     /// <summary>
@@ -51,25 +52,40 @@ namespace WifiSpeaker_Server {
             server.Start();
 
             Debug.Print("接続待機中...");
+
             using TcpClient client = await server.AcceptTcpClientAsync();
+
             Debug.Print("接続完了");
             StatusText.Text = "接続中";
 
-            await Task.Run(async () => {
-                using NetworkStream stream = client.GetStream();
-                byte[] data = Encoding.UTF8.GetBytes("ようこそ");
-                await stream.WriteAsync(data);
-                byte[] buffer = new byte[1024];
-                while (true) {
-                    int length = await stream.ReadAsync(buffer);
+            using NetworkStream stream = client.GetStream();
+            using WasapiLoopbackCapture capture = new();
+            Debug.WriteLine(capture.WaveFormat.ToString());
 
-                    if (length > 0) {
-                        string message = Encoding.UTF8.GetString(buffer, 0, length);
-                        Debug.Print("受け取った文字: " + message);
-                    }
+            // byte[] data = Encoding.UTF8.GetBytes("ようこそ");
+            // await stream.WriteAsync(data);
+
+            capture.DataAvailable += (s, e) => {
+                try {
+                    stream.Write(e.Buffer, 0, e.BytesRecorded);
+                } catch (Exception ex) {
+                    Debug.WriteLine(ex);
                 }
-            });
+            };
 
+            capture.StartRecording();
+
+
+            byte[] buffer = new byte[1024];
+            while (true) {
+                int length = await stream.ReadAsync(buffer);
+
+                if (length == 0)
+                    break;
+            }
+
+            capture.StopRecording();
+            server.Stop();
         }
 
     }
