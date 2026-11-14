@@ -4,3 +4,6 @@
 # 開発環境
 * VisualStudio
 * Windows10
+
+# ライセンス
+* MITライセンス
