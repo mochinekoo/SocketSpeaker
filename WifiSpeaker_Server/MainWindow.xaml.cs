@@ -47,18 +47,20 @@ namespace WifiSpeaker_Server {
         }
 
         public async Task InitSocket() {
-            var server = new TcpListener(IPAddress.Loopback, 25565);
+            var server = new TcpListener(IPAddress.Any, 25565);
             server.Start();
 
             Debug.Print("接続待機中...");
             using TcpClient client = await server.AcceptTcpClientAsync();
             Debug.Print("接続完了");
+            StatusText.Text = "接続中";
 
             await Task.Run(async () => {
+                using NetworkStream stream = client.GetStream();
+                byte[] data = Encoding.UTF8.GetBytes("ようこそ");
+                await stream.WriteAsync(data);
+                byte[] buffer = new byte[1024];
                 while (true) {
-                    using NetworkStream stream = client.GetStream();
-
-                    byte[] buffer = new byte[1024];
                     int length = await stream.ReadAsync(buffer);
 
                     if (length > 0) {
