@@ -1,0 +1,9 @@
+﻿################################################################################
+# この .gitignore ファイルは Microsoft(R) Visual Studio によって自動的に作成されました。
+################################################################################
+
+/.vs
+/WifiSpeaker_Client/bin/Debug/net10.0-android
+/WifiSpeaker_Client/obj
+/WifiSpeaker_Server/bin/Debug/net10.0-windows
+/WifiSpeaker_Server/obj
